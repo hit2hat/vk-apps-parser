@@ -22,13 +22,13 @@ const apps = fs.readFileSync(`${__dirname}/data/data.csv`)
     let list = [];
 
     for (let i = 0; i < apps.length + 1; i++) {
-        if (list.length < 20 && i !== apps.length) {
+        if (list.length < MAX_COUNT_IN_REQUEST && i !== apps.length) {
             list.push(apps[i].id);
         } else {
             console.log(`On item #${i} we take request`)
             const info = await request('apps.get', { app_ids: list.join(',') });
             for (let j = 0; j < info.items.length; j++) {
-                if (info.items[j].type === 'mini_app') {
+                if (info.items[j].type === REQUIRED_TYPE) {
                     miniApps.push(info.items[j].id);
                 }
             }
